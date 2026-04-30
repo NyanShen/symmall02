@@ -1,0 +1,28 @@
+server:
+  port: 8888 # 服务启动短裤
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sym?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: passw0rD # mysql数据库密码
+
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.sym.**.domain # 实体类包
+  configuration:
+    map-underscore-to-camel-case: true  # 自动下划线转驼峰
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL打印
+  global-config:
+    db-config:
+      id-type: assign_id  # 雪花ID
+      logic-delete-field: deleted  # 全局逻辑删除字段
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+
+jwt:
+  secret: sym_mall_jwt_secret_key_2026_this_is_a_long_enough_secret_for_hs256
+  expire: 86400000 # 604800000  7天 ； 86400000   1天
