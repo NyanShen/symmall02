@@ -26,3 +26,8 @@ mybatis-plus:
 jwt:
   secret: sym_mall_jwt_secret_key_2026_this_is_a_long_enough_secret_for_hs256
   expire: 86400000 # 604800000  7天 ； 86400000   1天
+
+wechat:
+  miniapp:
+    appid: ${WECHAT_APPID}
+    secret: ${WECHAT_SECRET}

@@ -44,4 +44,10 @@ public class Index{
         List<BaseUser> list = baseUserService.list();
         return AjaxResult.success(list);
     }
+
+    @GetMapping("/baseuser/{userId}")
+    public AjaxResult getBaseUser(@PathVariable("userId") Long userId) {
+        BaseUser baseUser = baseUserService.getById(userId);
+        return AjaxResult.success(baseUser);
+    }
 }
