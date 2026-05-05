@@ -1,4 +1,4 @@
-package sym.com.common.exception;
+package com.sym.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -7,8 +7,10 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import sym.com.common.result.AjaxResult;
-import sym.com.common.utils.SymStringUtil;
+import com.sym.common.result.AjaxResult;
+import com.sym.common.utils.SymStringUtil;
+
+import java.util.stream.Collectors;
 
 /**
  * @RestControllerAdvice = @ControllerAdvice + @ResponseBody
@@ -29,7 +31,7 @@ import sym.com.common.utils.SymStringUtil;
  */
 @Slf4j
 @RestControllerAdvice
-public class GlobalException extends RuntimeException{
+public class GlobalException {
     /**
      * 原因：
      * 如果没有显式定义，Java编译器会根据类结构自动生成一个 serialVersionUID（基于字段、方法等计算）。类一旦修改，自动生成的UID就会变化，导致新旧版本不兼容。
@@ -64,11 +66,18 @@ public class GlobalException extends RuntimeException{
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public AjaxResult handleValidException(MethodArgumentNotValidException e) {
-        FieldError fieldError = e.getBindingResult().getFieldError();
-        String msg = SymStringUtil.isNull(fieldError) ? "参数错误" : fieldError.getDefaultMessage();
+        String msg = e.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+
+        if (SymStringUtil.isEmpty(msg)) {
+            msg = "参数校验失败";
+        }
+
         log.warn("参数校验异常：{}", msg);
         return AjaxResult.error(HttpStatus.BAD_REQUEST.value(), msg);
     }
+
 
     /**
      * 方法不支持

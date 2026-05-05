@@ -1,7 +1,7 @@
-package sym.com.common.result;
+package com.sym.common.result;
 
-import sym.com.common.enums.ResultCode;
-import sym.com.common.utils.SymStringUtil;
+import com.sym.common.enums.ResultCode;
+import com.sym.common.utils.SymStringUtil;
 
 import java.util.HashMap;
 

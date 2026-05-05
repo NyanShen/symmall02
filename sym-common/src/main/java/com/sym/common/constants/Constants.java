@@ -1,4 +1,4 @@
-package sym.com.common.constants;
+package com.sym.common.constants;
 
 import java.util.Locale;
 

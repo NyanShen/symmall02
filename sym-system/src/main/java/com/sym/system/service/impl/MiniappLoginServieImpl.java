@@ -10,7 +10,7 @@ import com.sym.system.service.IMiniappLoginService;
 import com.sym.system.service.IMiniappUserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
-import sym.com.common.utils.SymStringUtil;
+import com.sym.common.utils.SymStringUtil;
 
 import java.time.LocalDateTime;
 import java.util.Map;

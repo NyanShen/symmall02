@@ -1,4 +1,4 @@
-package sym.com.common.enums;
+package com.sym.common.enums;
 
 public enum ResultCode {
     /**

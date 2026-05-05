@@ -1,4 +1,4 @@
-package sym.com.common.constants;
+package com.sym.common.constants;
 
 /**
  *  http 业务异常状态码
@@ -18,4 +18,5 @@ public class HttpStatus {
     public static final int BAD_GATEWAY = 502;
     public static final int SERVICE_UNAVAILABLE = 503;
     public static final int GATEWAY_TIMEOUT = 504;
+    public static final int BUSINESS_ERROR = 601;
 }

@@ -1,5 +1,6 @@
 package com.sym.framework.config;
 
+import com.sym.framework.security.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 /**
@@ -73,6 +75,8 @@ public class SecurityConfig {
                         .requestMatchers("/index/**", "/static/**").permitAll()
                         // 其余所有接口 → 必须登录认证
                         .anyRequest().authenticated());
+        // 添加过滤器
+        http.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

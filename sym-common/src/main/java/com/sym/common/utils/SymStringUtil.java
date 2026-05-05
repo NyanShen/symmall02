@@ -1,4 +1,4 @@
-package sym.com.common.utils;
+package com.sym.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

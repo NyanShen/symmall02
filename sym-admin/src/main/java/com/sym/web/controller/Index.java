@@ -4,9 +4,8 @@ import com.sym.system.domain.BaseUser;
 import com.sym.system.service.IBaseUserService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-import sym.com.common.result.AjaxResult;
+import com.sym.common.result.AjaxResult;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
