@@ -48,7 +48,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity // 开启 Spring web Security, 默认情况下，Spring Security 会拦截所有请求，并执行认证和授权操作。
-@EnableMethodSecurity(prePostEnabled = true) // 开启 Spring Security 的启用方法级安全注解, prePostEnabled
+@EnableMethodSecurity(prePostEnabled = true) // 开启 Spring Security 的启用方法级安全注解, prePostEnabled，这个注解启用了方法级别的安全控制，它会自动注册 SpEL 表达式支持。
 public class SecurityConfig {
     /**
      * 配置 Spring Security 过滤链
