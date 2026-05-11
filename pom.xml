@@ -28,6 +28,8 @@
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <mysql.version>9.6.0</mysql.version>
         <jwt.version>0.12.5</jwt.version>
+        <redis.version>3.5.12</redis.version>
+        <easycaptcha.version>1.6.2</easycaptcha.version>
 
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -113,6 +115,19 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${redis.version}</version>
+            </dependency>
+            <!-- EasyCaptcha 图形验证码 -->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easycaptcha.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

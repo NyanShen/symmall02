@@ -70,7 +70,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 配置 HTTP 请求的授权规则
                 .authorizeHttpRequests(auth -> auth
                         // 登录接口 → 无需登录认证
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/wx/login").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         // 静态资源 → 无需登录认证
                         .requestMatchers("/index/**", "/static/**").permitAll()
                         // 其余所有接口 → 必须登录认证

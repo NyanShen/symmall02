@@ -3,17 +3,16 @@ package com.sym.web.controller;
 import com.sym.common.result.AjaxResult;
 import com.sym.system.domain.dto.LoginRequest;
 import com.sym.system.domain.dto.MiniappLoginRequest;
+import com.sym.system.domain.vo.CaptchaVO;
 import com.sym.system.domain.vo.LoginVO;
 import com.sym.system.domain.vo.MiniappLoginVO;
 import com.sym.system.service.IBaseUserService;
+import com.sym.system.service.ICaptchaService;
 import com.sym.system.service.IMiniappLoginService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -21,10 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Resource
+    private ICaptchaService captchaService;
+
+    @Resource
     private IBaseUserService baseUserService;
 
     @Resource
     private IMiniappLoginService miniappLoginService;
+
+    @GetMapping("/captcha")
+    public AjaxResult getCaptcha() {
+        CaptchaVO captchaVO = captchaService.generateCaptcha();
+        return AjaxResult.success(captchaVO);
+    }
 
     @PostMapping("/login")
     public AjaxResult login(@Valid @RequestBody LoginRequest request) {

@@ -11,6 +11,7 @@ import com.sym.system.domain.dto.LoginRequest;
 import com.sym.system.domain.vo.LoginVO;
 import com.sym.system.mapper.BaseUserMapper;
 import com.sym.system.service.IBaseUserService;
+import com.sym.system.service.ICaptchaService;
 import com.sym.system.service.ISysUserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,15 @@ import org.springframework.stereotype.Service;
 public class BaseUserServiceImpl extends ServiceImpl<BaseUserMapper, BaseUser> implements IBaseUserService {
 
     @Resource
+    private ICaptchaService captchaService;
+
+    @Resource
     private ISysUserService sysUserService;
 
     @Override
     public LoginVO login(LoginRequest request) {
+        // 验证码校验
+        captchaService.validateCaptcha(request.getCaptchaKey(), request.getCaptchaCode());
         // 1. 根据用户名查询用户
         BaseUser user = this.findByUsername(request.getUsername());
 
