@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class CaptchaServiceImpl implements ICaptchaService {
     // 验证码缓存key前缀
     private static final String CAPTCHA_KEY_PREFIX = "captcha:";
-    // 验证码过期时间
+    // 验证码过期时间- 5分钟
     private static final long CAPTCHA_EXPIRE_TIME = 5;
 
     private final RedisTemplate<String, Object> redisTemplate;
@@ -29,7 +29,6 @@ public class CaptchaServiceImpl implements ICaptchaService {
     public CaptchaServiceImpl(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
-
 
     /**
      * 生成验证码
@@ -43,7 +42,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
 
         String captchaKey = UUID.randomUUID().toString().replace("-", "");
         String captchaCode = captcha.text().toLowerCase();
-        // 缓存验证码
+        // 缓存验证码key, value, 过期时间, 单位分钟
         redisTemplate.opsForValue().set(
                 CAPTCHA_KEY_PREFIX + captchaKey,
                 captchaCode,
@@ -71,6 +70,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
 
         redisTemplate.delete(key);
 
+        // redis缓存的验证码 和 前端传递的验证码
         if (!cachedCode.toString().equalsIgnoreCase(captchaCode)) {
             throw new BusinessException("验证码错误");
         }

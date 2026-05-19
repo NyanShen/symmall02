@@ -2,10 +2,12 @@ package com.sym.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sym.system.domain.SysMenu;
+import com.sym.system.domain.vo.RouteMenuVO;
 import com.sym.system.mapper.SysMenuMapper;
 import com.sym.system.service.ISysMenuService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 tree.add(findChildren(menu, menus));
             }
         }
-        return List.of();
+        return tree;
     }
 
     /**
@@ -48,5 +50,52 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         parent.setChildren(children);
         return parent;
+    }
+
+//    /**
+//     * 获取用户菜单路由
+//     * @param userId 用户ID
+//     * @return 菜单及路由
+//     */
+    @Override
+    public List<RouteMenuVO> buildRouteMenuTreeByUserId(Long userId) {
+        List<SysMenu> menus = selectMenusByUserId(userId);
+        List<SysMenu> menuTree = buildMenuTree(menus);
+        return convertToRouteMenuVO(menuTree);
+    }
+
+    /**
+     *
+     */
+    private List<RouteMenuVO> convertToRouteMenuVO(List<SysMenu> menuTree) {
+        return menuTree.stream()
+                .map(this::convertSingleMenu)
+                .collect(Collectors.toList());
+    }
+
+    private RouteMenuVO convertSingleMenu(SysMenu menu) {
+        RouteMenuVO routeMenu = new RouteMenuVO();
+        routeMenu.setId(menu.getMenuId());
+        routeMenu.setName(StringUtils.capitalize(menu.getPath()));
+        routeMenu.setPath(menu.getPath());
+        routeMenu.setComponent(menu.getComponent());
+
+        // 菜单类型为目录 才需要设置子菜单
+        if ("M".equals(menu.getMenuType()) && menu.getChildren() != null && !menu.getChildren().isEmpty()) {
+            routeMenu.setRedirect("noRedirect");
+        }
+
+        RouteMenuVO.Meta meta = new RouteMenuVO.Meta();
+        meta.setTitle(menu.getMenuName());
+        meta.setIcon(menu.getIcon());
+        meta.setVisible("0".equals(menu.getVisible()));
+        meta.setKeepAlive("0".equals(menu.getIsCache()));
+        routeMenu.setMeta(meta);
+
+        if (menu.getChildren() != null && !menu.getChildren().isEmpty()) {
+            routeMenu.setChildren(convertToRouteMenuVO(menu.getChildren()));
+        }
+
+        return routeMenu;
     }
 }
